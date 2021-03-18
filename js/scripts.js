@@ -1,10 +1,23 @@
+//Intro overlay from w3schools
+
+function openIntro() {
+  document.getElementById("myIntro").style.height = "100%";
+  document.querySelector('body').style.overflow = 'hidden';
+}
+
+function closeIntro() {
+  document.getElementById("myIntro").style.height = "0%";
+  document.querySelector('body').style.overflow = 'auto';
+}
+
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoid3NoZW55YyIsImEiOiJja2w3YjNvd3YxZnc1Mm5wZWp1MnVqZGh2In0.-wG4LWFGN76Nf-AEigxu2A';
 
 var map = new mapboxgl.Map({
   container: 'mapContainer', // container ID
   style: 'mapbox://styles/mapbox/light-v9', // style URL
   center: [-73.992075979463, 40.7367347085187], // starting position [lng, lat]
-  zoom: 14.5 // starting zoom
+  zoom: 13.5 // starting zoom
 });
 
 // disable map zoom when using scroll
@@ -14,11 +27,6 @@ map.scrollZoom.disable();
 var nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-right');
 
-//Target the span elements used in the sidebar
-var addDisplay = document.getElementById('address');
-var itemDisplay = document.getElementById('item');
-var amountDisplay = document.getElementById('mciamount');
-var dateDisplay = document.getElementById('mcidate');
 
 map.on('load', function() {
 
@@ -77,66 +85,60 @@ map.on('load', function() {
       'line-width': 1
     }
   });
+
   });
 
 
-//   var quakeID = null;
-//
-//   map.on('click', 'unclustered-point', function (e) {
-//     // Set variables equal to the current feature's magnitude, location, and time
-//     var quakeMagnitude = e.features[0].properties.mag;
-//     var quakeLocation = e.features[0].properties.place;
-//     var quakeDate = new Date(e.features[0].properties.time);
-//
-//     if (e.features.length > 0) {
-//       // Display the magnitude, location, and time in the sidebar
-//       magDisplay.textContent = quakeMagnitude;
-//       locDisplay.textContent = quakeLocation;
-//       dateDisplay.textContent = quakeDate;
-//
-//       // When the mouse moves over the earthquakes-viz layer, update the
-//       // feature state for the feature under the mouse
-//       if (quakeID) {
-//         map.removeFeatureState({
-//           source: 'earthquakes',
-//           id: quakeID
-//         });
-//       }
-//
-//       quakeID = e.features[0].id;
-//
-//       map.setFeatureState(
-//         {
-//           source: 'earthquakes',
-//           id: quakeID
-//         },
-//         {
-//           hover: true
-//         }
-//       );
-//     }
-//   });
-//
-//   // When the mouse leaves the earthquakes-viz layer, update the
-//   // feature state of the previously hovered feature
-//   map.on('mouseleave', 'earthquakes-viz', function () {
-//     if (quakeID) {
-//       map.setFeatureState(
-//         {
-//           source: 'earthquakes',
-//           id: quakeID
-//         },
-//         {
-//           hover: false
-//         }
-//       );
-//     }
-//     quakeID = null;
-//     // Remove the information from the previously hovered feature from the sidebar
-//     magDisplay.textContent = '';
-//     locDisplay.textContent = '';
-//     dateDisplay.textContent = '';
-//     // Reset the cursor style
-//     map.getCanvas().style.cursor = '';
-//   });
-// });
+ function set_ad() {
+  var select = document.getElementById("assembly_district");
+  var ad = select.options[select.selectedIndex].value;
+  // var features = map.queryRenderedFeatures({
+  // layers: ['manhattan-mci-lots']});
+
+  map.setFilter('manhattan-mci-lots',
+  ['==', ['get', 'mci_manhattan_geo_assemblyDistrict'], ad]
+)
+
+  map.setFilter('mci-outlines',
+  ['==', ['get', 'mci_manhattan_geo_assemblyDistrict'], ad]
+)
+
+  map.setLayoutProperty('manhattan-all-lots', 'visibility', 'none');
+
+}
+
+
+//Target the span elements used in the sidebar
+var addDisplay = document.getElementById('address');
+var itemDisplay = document.getElementById('item');
+var amountDisplay = document.getElementById('mciamount');
+var dateDisplay = document.getElementById('mcidate');
+
+
+var buildingID = null;
+
+map.on('click', 'manhattan-mci-lots', function (e) {
+  // Set variables equal to the current feature's magnitude, location, and time
+  var address = e.features[0].properties.mci_manhattan_geo_street_address;
+  var mciItem = e.features[0].properties.mci_manhattan_geo_mci_item;
+  var mciAmount = e.features[0].properties.mci_manhattan_geo_claim_cost;
+  var mciDate = e.features[0].properties.mci_manhattan_geo_filing_date;
+
+  if (e.features.length > 0) {
+    // Display the magnitude, location, and time in the sidebar
+    addDisplay.textContent = address;
+    itemDisplay.textContent = mciItem;
+    amountDisplay.textContent = mciAmount;
+    dateDisplay.textContent = mciDate;
+
+
+  }
+});
+
+//Mouse cursor will change to a pointer when over something clickable
+map.on('mouseenter', 'manhattan-mci-lots', function () {
+  map.getCanvas().style.cursor = 'pointer';
+});
+map.on('mouseleave', 'manhattan-mci-lots', function () {
+  map.getCanvas().style.cursor = '';
+});
