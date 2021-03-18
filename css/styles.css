@@ -1,0 +1,29 @@
+body, html {
+  margin: 0 auto;
+}
+
+.main-map {
+  display: flex;
+}
+
+#sidebar {
+  flex: 1;
+  border: 1px solid black;
+}
+
+#sidebar h3 {
+  padding: 20px;
+  text-align: center;
+  font-family: Verdana;
+  font-size: 18px;
+}
+
+.buildingInfo {
+  padding: 10px;
+  font-family: Verdana;
+}
+
+#mapContainer {
+  flex: 3.5;
+  height: 100vh;
+}
