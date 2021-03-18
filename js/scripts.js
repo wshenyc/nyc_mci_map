@@ -34,7 +34,7 @@ map.on('load', function() {
 
   map.addSource('manhattanlots', {
     type: 'geojson',
-    data: '/data/manhattan_lots_all.geojson'
+    data: './data/manhattan_lots_all.geojson'
   });
 
   map.addLayer({
@@ -63,7 +63,7 @@ map.on('load', function() {
 
   map.addSource('mcilots', {
     type: 'geojson',
-    data: '/data/mci_manhattan_only.geojson'
+    data: './data/mci_manhattan_only.geojson'
   });
 
   map.addLayer({
