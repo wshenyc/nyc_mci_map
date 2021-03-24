@@ -24,10 +24,10 @@ body, html {
 
 .overlay-content {
   position: relative;
-  width: 50%;
+  width: 45%;
   max-width: 600px;
   top: 25%;
-  left: 25%;
+  left: 27%;
   text-align: left;
   padding-left:20px;
   padding-right:20px;
@@ -42,7 +42,7 @@ body, html {
 }
 
 .overlay-content h1 {
-  line-height: 24px;
+  line-height: 30px;
   text-align: center;
 }
 
@@ -77,9 +77,6 @@ body, html {
   }
 }
 
-
-
-
 .main-map {
   display: flex;
 }
@@ -87,18 +84,19 @@ body, html {
 #sidebar {
   flex: 1;
   border: 1px solid black;
+  font-family: Verdana;
 }
 
+#sidebar h3, h4 {
+  text-align: center;
+}
 #sidebar h3 {
   padding: 20px;
-  text-align: center;
-  font-family: Verdana;
   font-size: 18px;
 }
 
-#sidebar p, .buildingInfo, .ad_filter {
+#sidebar p, .buildingInfo, .nta_filter {
   padding: 10px;
-  font-family: Verdana;
 }
 
 #mapContainer {

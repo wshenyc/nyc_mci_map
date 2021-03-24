@@ -30,31 +30,23 @@ map.addControl(nav, 'top-right');
 
 map.on('load', function() {
 
-  // adding base layer of all Manhattan lots
+  // adding base layer of all Manhattan NTAs
 
-  map.addSource('manhattanlots', {
+  map.addSource('manhattannta', {
     type: 'geojson',
-    data: './data/manhattan_lots_all.geojson'
+    data: './data/nta-nyc.geojson'
   });
 
-  map.addLayer({
-    'id': 'manhattan-all-lots',
-    'type': 'fill',
-    'source': 'manhattanlots',
-    'paint': {
-      'fill-color': 'green',
-      'fill-opacity': 0.5
-    }
-  });
 
-  // add outlines for all lots
+  // add outlines for all NTAs
   map.addLayer({
     'id': 'lots-outlines',
     'type': 'line',
-    'source': 'manhattanlots',
+    'source': 'manhattannta',
+    'filter': ['==', 'BoroName', 'Manhattan'],
     'paint': {
-      'line-color': 'white',
-      'line-width': 0.2
+      'line-color': 'gray',
+      'line-width': 2
     }
   });
 
@@ -63,7 +55,7 @@ map.on('load', function() {
 
   map.addSource('mcilots', {
     type: 'geojson',
-    data: './data/mci_manhattan_only.geojson'
+    data: './data/mci-final-v4.geojson'
   });
 
   map.addLayer({
@@ -86,53 +78,100 @@ map.on('load', function() {
     }
   });
 
-  });
+});
 
+//filter map by NTA
+function set_nta() {
+  var select = document.getElementById("nta_code");
+  var nta = select.options[select.selectedIndex].value;
 
- function set_ad() {
-  var select = document.getElementById("assembly_district");
-  var ad = select.options[select.selectedIndex].value;
-  // var features = map.queryRenderedFeatures({
-  // layers: ['manhattan-mci-lots']});
 
   map.setFilter('manhattan-mci-lots',
-  ['==', ['get', 'mci_manhattan_geo_assemblyDistrict'], ad]
+  ['==', ['get', 'nta'], nta]
 )
 
   map.setFilter('mci-outlines',
-  ['==', ['get', 'mci_manhattan_geo_assemblyDistrict'], ad]
+  ['==', ['get', 'nta'], nta]
 )
 
-  map.setLayoutProperty('manhattan-all-lots', 'visibility', 'none');
+  map.setFilter('lots-outlines',
+  ['==', ['get', 'NTACode'], nta]
+)
 
 }
+
+
+//reset map
+function resetMap() {
+  map.setFilter('manhattan-mci-lots')
+
+  map.setFilter('mci-outlines')
+
+  map.setFilter('lots-outlines',
+  ['==', 'BoroName', 'Manhattan'])
+}
+
+// zoom the map to the selected features
+
 
 
 //Target the span elements used in the sidebar
 var addDisplay = document.getElementById('address');
 var itemDisplay = document.getElementById('item');
 var amountDisplay = document.getElementById('mciamount');
+var allowCostDisplay = document.getElementById('allowcost')
+var statusDisplay = document.getElementById('finaldecision');
 var dateDisplay = document.getElementById('mcidate');
+var closingDateDisplay = document.getElementById('closingdate');
 
 
 var buildingID = null;
 
 map.on('click', 'manhattan-mci-lots', function (e) {
-  // Set variables equal to the current feature's magnitude, location, and time
-  var address = e.features[0].properties.mci_manhattan_geo_street_address;
-  var mciItem = e.features[0].properties.mci_manhattan_geo_mci_item;
-  var mciAmount = e.features[0].properties.mci_manhattan_geo_claim_cost;
-  var mciDate = e.features[0].properties.mci_manhattan_geo_filing_date;
+  // Set variables equal to the current feature's address, MCI item, claim cost, filing date
+  var address = e.features[0].properties.full_address;
+  var mciItem = e.features[0].properties.mci_item;
+  var mciAmount = e.features[0].properties.claim_cost;
+  var allowedCost = e.features[0].properties.allow_cost;
+  var finalDecision = e.features[0].properties.close_code;
+  var mciDate = e.features[0].properties.filing_date;
+  var closingDate = e.features[0].properties.closing_date;
+  var existingAddress = [];
 
   if (e.features.length > 0) {
-    // Display the magnitude, location, and time in the sidebar
-    addDisplay.textContent = address;
-    itemDisplay.textContent = mciItem;
-    amountDisplay.textContent = mciAmount;
-    dateDisplay.textContent = mciDate;
+    // Display theaddress, MCI item, claim cost, filing date in the sidebar
 
+
+//trying to make it list all the mcis for each building
+//this is hard to read though. maybe if I can also add like tabs for each MCI item?
+    var i;
+    for (i = 0; i < e.features.length; i++) {
+      existingAddress.push(address);
+
+      console.log(existingAddress);
+
+      if (existingAddress.includes(address)) {
+        addDisplay.textContent = address;
+        itemDisplay.textContent = mciItem + ", " + e.features[i+1].properties.mci_item;
+        amountDisplay.textContent = mciAmount + ", " + e.features[i+1].properties.claim_cost;
+        allowCostDisplay.textContent = allowedCost + ", " + e.features[i+1].properties.allow_cost;
+        statusDisplay.textContent = finalDecision + ", " + e.features[i+1].properties.close_cost;
+        dateDisplay.textContent = mciDate +  ", " + e.features[i+1].properties.filing_date;
+        closingDateDisplay.textContent = closingDate +  ", " + e.features[i+1].properties.closing_date;
+      }
+      else {
+        addDisplay.textContent = address;
+        itemDisplay.textContent = mciItem;
+        amountDisplay.textContent = mciAmount;
+        allowCostDisplay.textContent = allowedCost;
+        statusDisplay.textContent = finalDecision;
+        dateDisplay.textContent = mciDate;
+        closingDateDisplay.textContent = closingDate;
+      }
+    }
 
   }
+
 });
 
 //Mouse cursor will change to a pointer when over something clickable
