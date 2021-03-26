@@ -19,5 +19,7 @@ Secondly, someone can select a neighborhood they live in (divided based on Neigh
 and receive an overall aggregation of all the MCI data for their area, such as average MCI claim cost,
 average MCI award amount, and most common MCI item. 
 
+![Screen Shot 2021-03-26 at 5 50 59 PM](https://user-images.githubusercontent.com/73041144/112696249-d57f7400-8e5b-11eb-92b5-813e39d2fe1c.png)
+
 
 
