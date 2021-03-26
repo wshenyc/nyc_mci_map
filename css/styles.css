@@ -1,3 +1,5 @@
+
+
 body, html {
   margin: 0 auto;
 }
@@ -77,6 +79,12 @@ body, html {
   }
 }
 
+.separator{
+	min-height: 1px;
+	background-color: rgba(46, 60, 67, 0.08);
+	margin: 16px 0;
+}
+
 .main-map {
   display: flex;
 }
@@ -91,13 +99,58 @@ body, html {
   text-align: center;
 }
 
+#infoContainer {
+  max-height: 300px;
+  overflow: scroll;
+  margin-top: 20px;
+}
+
+.search_label {
+  font-weight: bold;
+}
+
+.actions {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.map-overlay {
+  padding: 0 10px 5px 60px;
+}
+
+.reset_map {
+    font-size: 11px;
+    float: right;
+    margin-right: 10px;
+}
+
+.reset_map a, a:visited {
+  color: blue;
+}
+
+#sidebar h3.mciItemHeader {
+  margin: 0;
+  padding-left: 0;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  text-align: left;
+}
+
 #sidebar h3 {
   padding: 20px;
+  padding-bottom: 0;
   font-size: 18px;
 }
 
-#sidebar p, .buildingInfo {
+.faq {
+  text-align: center;
   padding: 10px;
+}
+
+#sidebar p, .buildingInfo {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #mapContainer {

@@ -130,6 +130,11 @@ function resetMap() {
 
   map.setFilter('lots-outlines',
     ['==', 'BoroName', 'Manhattan'])
+
+  map.easeTo({
+    center: [-73.992075979463, 40.7367347085187], // starting position [lng, lat]
+    zoom: 13.5 // starting zoom
+  })
 }
 
 // zoom the map to the selected features
@@ -144,6 +149,7 @@ var allowCostDisplay = document.getElementById('allowcost')
 var statusDisplay = document.getElementById('finaldecision');
 var dateDisplay = document.getElementById('mcidate');
 var closingDateDisplay = document.getElementById('closingdate');
+var infoContainer = document.getElementById('infoContainer');
 
 
 var buildingID = null;
@@ -151,58 +157,37 @@ var buildingID = null;
 map.on('click', 'manhattan-mci-lots', function(e) {
   // Set variables equal to the current feature's address, MCI item, claim cost, filing date
   var address = e.features[0].properties.full_address;
-  var mciItem = e.features[0].properties.mci_item;
-  var mciAmount = e.features[0].properties.claim_cost;
-  var allowedCost = e.features[0].properties.allow_cost;
-  var finalDecision = e.features[0].properties.close_code;
-  var mciDate = e.features[0].properties.filing_date;
-  var closingDate = e.features[0].properties.closing_date;
-
-  var mciItemList = [];
-  var mciAmountList =[];
-  var allowedCostList = [];
-  var finalDecisionList = [];
-  var mciDateList = [];
-  var closingDateList = [];
 
 
   if (e.features.length > 0) {
-    // Display theaddress, MCI item, claim cost, filing date in the sidebar
+    // Display the address, MCI item, claim cost, filing date in the sidebar
+    var MCIElements = e.features.map((feature, idx) => {
+      var { properties } = feature;
+      return `<div>
+        <h3 class="mciItemHeader" style="${idx === 0 ? 'padding-top:0' : ''}">
+          ${properties.mci_item.toLowerCase() === 'na' ? 'Item Unknown' : properties.mci_item}
+        </h3>
+        <div>
+          <strong>Claim Cost:</strong>&nbsp;
+          <span id="mciamount">${properties.claim_cost}</span>
+        </div>
+        <div>
+          <strong>Amount Granted:</strong>&nbsp;
+          <span id="allowcost">${properties.allow_cost}</span>
+        </div>
+        <div>
+          <strong>Filing Date:</strong>&nbsp;
+          <span id="mcidate">${properties.filing_date}</span>
+        </div>
+        <div>
+          <strong>Closing Date:</strong>&nbsp;
+          <span id="closingdate">${properties.closing_date}</span>
+        </div>
+      </div>`
+    });
 
     addDisplay.textContent = address;
-    itemDisplay.textContent = mciItem;
-    amountDisplay.textContent = mciAmount;
-    allowCostDisplay.textContent = allowedCost;
-    statusDisplay.textContent = finalDecision;
-    dateDisplay.textContent = mciDate;
-    closingDateDisplay.textContent = closingDate;
-    //trying to make it list all the mcis for each building
-    //this is hard to read though. maybe if I can also add like tabs for each MCI item?
-
-    for (var i = 0; i < e.features.length; i++) {
-      if (address == e.features[i].properties.full_address) {
-        mciItemList.push(e.features[i].properties.mci_item);
-        mciAmountList.push(e.features[i].properties.mci_amount);
-        allowedCostList.push(e.features[i].properties.allow_cost);
-        finalDecisionList.push(e.features[i].properties.close_code);
-        mciDateList.push(e.features[i].properties.filing_date);
-        closingDateList.push(e.features[i].properties.closing_date);
-      } else {
-        addDisplay.textContent = address;
-        itemDisplay.textContent = mciItem;
-        amountDisplay.textContent = mciAmount;
-        allowCostDisplay.textContent = allowedCost;
-        statusDisplay.textContent = finalDecision;
-        dateDisplay.textContent = mciDate;
-        closingDateDisplay.textContent = closingDate;
-      }
-    }
-    itemDisplay.textContent = mciItemList;
-    amountDisplay.textContent = mciAmountList;
-    allowCostDisplay.textContent = allowedCostList;
-    statusDisplay.textContent = finalDecisionList;
-    dateDisplay.textContent = mciDateList;
-    closingDateDisplay.textContent = closingDateList;
+    infoContainer.innerHTML =  MCIElements.join('');
   }
 
 });
