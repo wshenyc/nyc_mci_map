@@ -85,20 +85,41 @@ function set_nta() {
   var select = document.getElementById("nta_code");
   var nta = select.options[select.selectedIndex].value;
 
-
   map.setFilter('manhattan-mci-lots',
-  ['==', ['get', 'nta'], nta]
-)
+    ['==', ['get', 'nta'], nta]
+  )
 
   map.setFilter('mci-outlines',
-  ['==', ['get', 'nta'], nta]
-)
+    ['==', ['get', 'nta'], nta]
+  )
 
   map.setFilter('lots-outlines',
-  ['==', ['get', 'NTACode'], nta]
-)
+    ['==', ['get', 'NTACode'], nta]
+  )
 
+
+  //going to add a zoom to NTA here
+
+
+  $.getJSON("./data/nta-nyc.geojson", function(data) {
+      var neighborhood = data.features.find(function(feature) {
+        return feature.properties.NTACode === nta;
+      });
+      // nta data is formatted inconsistently, so ensure it's
+      // broken down to the format [[lng, lat], [lng, lat]]
+      var coords = flatten(neighborhood.geometry.coordinates)
+
+      var turfFeatures = turf.points(coords);
+      var newCenter = turf.center(turfFeatures);
+      map.flyTo({
+        center: newCenter.geometry.coordinates,
+        zoom: 14,
+        speed: 1
+      })
+    })
 }
+
+
 
 
 //reset map
@@ -108,7 +129,7 @@ function resetMap() {
   map.setFilter('mci-outlines')
 
   map.setFilter('lots-outlines',
-  ['==', 'BoroName', 'Manhattan'])
+    ['==', 'BoroName', 'Manhattan'])
 }
 
 // zoom the map to the selected features
@@ -127,7 +148,7 @@ var closingDateDisplay = document.getElementById('closingdate');
 
 var buildingID = null;
 
-map.on('click', 'manhattan-mci-lots', function (e) {
+map.on('click', 'manhattan-mci-lots', function(e) {
   // Set variables equal to the current feature's address, MCI item, claim cost, filing date
   var address = e.features[0].properties.full_address;
   var mciItem = e.features[0].properties.mci_item;
@@ -136,30 +157,37 @@ map.on('click', 'manhattan-mci-lots', function (e) {
   var finalDecision = e.features[0].properties.close_code;
   var mciDate = e.features[0].properties.filing_date;
   var closingDate = e.features[0].properties.closing_date;
-  var existingAddress = [];
+
+  var mciItemList = [];
+  var mciAmountList =[];
+  var allowedCostList = [];
+  var finalDecisionList = [];
+  var mciDateList = [];
+  var closingDateList = [];
+
 
   if (e.features.length > 0) {
     // Display theaddress, MCI item, claim cost, filing date in the sidebar
 
+    addDisplay.textContent = address;
+    itemDisplay.textContent = mciItem;
+    amountDisplay.textContent = mciAmount;
+    allowCostDisplay.textContent = allowedCost;
+    statusDisplay.textContent = finalDecision;
+    dateDisplay.textContent = mciDate;
+    closingDateDisplay.textContent = closingDate;
+    //trying to make it list all the mcis for each building
+    //this is hard to read though. maybe if I can also add like tabs for each MCI item?
 
-//trying to make it list all the mcis for each building
-//this is hard to read though. maybe if I can also add like tabs for each MCI item?
-    var i;
-    for (i = 0; i < e.features.length; i++) {
-      existingAddress.push(address);
-
-      console.log(existingAddress);
-
-      if (existingAddress.includes(address)) {
-        addDisplay.textContent = address;
-        itemDisplay.textContent = mciItem + ", " + e.features[i+1].properties.mci_item;
-        amountDisplay.textContent = mciAmount + ", " + e.features[i+1].properties.claim_cost;
-        allowCostDisplay.textContent = allowedCost + ", " + e.features[i+1].properties.allow_cost;
-        statusDisplay.textContent = finalDecision + ", " + e.features[i+1].properties.close_cost;
-        dateDisplay.textContent = mciDate +  ", " + e.features[i+1].properties.filing_date;
-        closingDateDisplay.textContent = closingDate +  ", " + e.features[i+1].properties.closing_date;
-      }
-      else {
+    for (var i = 0; i < e.features.length; i++) {
+      if (address == e.features[i].properties.full_address) {
+        mciItemList.push(e.features[i].properties.mci_item);
+        mciAmountList.push(e.features[i].properties.mci_amount);
+        allowedCostList.push(e.features[i].properties.allow_cost);
+        finalDecisionList.push(e.features[i].properties.close_code);
+        mciDateList.push(e.features[i].properties.filing_date);
+        closingDateList.push(e.features[i].properties.closing_date);
+      } else {
         addDisplay.textContent = address;
         itemDisplay.textContent = mciItem;
         amountDisplay.textContent = mciAmount;
@@ -169,15 +197,50 @@ map.on('click', 'manhattan-mci-lots', function (e) {
         closingDateDisplay.textContent = closingDate;
       }
     }
-
+    itemDisplay.textContent = mciItemList;
+    amountDisplay.textContent = mciAmountList;
+    allowCostDisplay.textContent = allowedCostList;
+    statusDisplay.textContent = finalDecisionList;
+    dateDisplay.textContent = mciDateList;
+    closingDateDisplay.textContent = closingDateList;
   }
 
 });
 
+
+// recursive array flattener, return array of arrays, in geojson formatt,
+// i.e. [[lng, lat], [lng, lat]]
+function flatten(array) {
+  if (array[0] instanceof Array) {
+    if (!(array[0][0] instanceof Array)) {
+      return array
+    }
+  }
+  var newArray = []
+  array.forEach(el => newArray = [...newArray, ...el])
+  return flatten(newArray)
+}
+//filter feature by Address
+// var filterEl = document.getElementById('feature-filter');
+// var listingEl = document.getElementById('feature-listing');
+//
+// filterEl.parentNode.style.display = 'block';
+// }
+// else if (features.length === 0 && filterEl.value !== '') {
+//   empty.textContent = 'No results found';
+//   listingEl.appendChild(empty);
+// } else {
+//   empty.textContent = 'Drag the map to populate results';
+//   listingEl.appendChild(empty);
+//
+//   // Hide the filter input
+//   filterEl.parentNode.style.display = 'none';
+
+
 //Mouse cursor will change to a pointer when over something clickable
-map.on('mouseenter', 'manhattan-mci-lots', function () {
+map.on('mouseenter', 'manhattan-mci-lots', function() {
   map.getCanvas().style.cursor = 'pointer';
 });
-map.on('mouseleave', 'manhattan-mci-lots', function () {
+map.on('mouseleave', 'manhattan-mci-lots', function() {
   map.getCanvas().style.cursor = '';
 });

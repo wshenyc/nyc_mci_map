@@ -29,14 +29,14 @@ body, html {
   top: 25%;
   left: 27%;
   text-align: left;
-  padding-left:20px;
-  padding-right:20px;
-  padding-top:3px;
-  padding-bottom:15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 3px;
+  padding-bottom: 15px;
   background: rgba(0, 0, 0, 0.9);
   color: #d5d5d5;
   font-size: 14px;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   line-height: 20px;
   border: 4px solid rgba(0, 0, 0, 0.7);
 }
@@ -84,18 +84,19 @@ body, html {
 #sidebar {
   flex: 1;
   border: 1px solid black;
-  font-family: Verdana;
+  font-family: 'Open Sans', sans-serif;
 }
 
 #sidebar h3, h4 {
   text-align: center;
 }
+
 #sidebar h3 {
   padding: 20px;
   font-size: 18px;
 }
 
-#sidebar p, .buildingInfo, .nta_filter {
+#sidebar p, .buildingInfo {
   padding: 10px;
 }
 
