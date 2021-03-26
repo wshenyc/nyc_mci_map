@@ -149,6 +149,9 @@ body, html {
   margin-top: 5px;
 }
 
+#nta_code {
+  width: 100%;
+}
 
 .faq {
   text-align: center;
