@@ -1,7 +1,6 @@
-
-
 body, html {
   margin: 0 auto;
+  font-family: 'Raleway', sans-serif;
 }
 
 /*overlay code from: https://cneidson.github.io/hazards/*/
@@ -26,26 +25,25 @@ body, html {
 
 .overlay-content {
   position: relative;
-  width: 45%;
+  width: 50%;
   max-width: 600px;
   top: 25%;
-  left: 27%;
+  left: 28%;
   text-align: left;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 3px;
-  padding-bottom: 15px;
+  padding: 20px;
+  border-radius: 5px;
   background: rgba(0, 0, 0, 0.9);
   color: #d5d5d5;
   font-size: 14px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   line-height: 20px;
   border: 4px solid rgba(0, 0, 0, 0.7);
 }
 
 .overlay-content h1 {
-  line-height: 30px;
+  line-height: 40px;
   text-align: center;
+  padding: 5px;
 }
 
 .overlay a, .overlay a:visited {
@@ -58,7 +56,7 @@ body, html {
 }
 
 #overlay-button {
-  background: #1f2020;
+  background: black;
   border-radius: 3px;
   color: #ffffff;
   padding: 10px;
@@ -79,10 +77,10 @@ body, html {
   }
 }
 
-.separator{
-	min-height: 1px;
-	background-color: rgba(46, 60, 67, 0.08);
-	margin: 16px 0;
+.separator {
+  min-height: 1px;
+  background-color: rgba(46, 60, 67, 0.08);
+  margin: 16px 0;
 }
 
 .main-map {
@@ -92,7 +90,7 @@ body, html {
 #sidebar {
   flex: 1;
   border: 1px solid black;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 #sidebar h3, h4 {
@@ -100,7 +98,7 @@ body, html {
 }
 
 #infoContainer {
-  max-height: 300px;
+  max-height: 280px;
   overflow: scroll;
   margin-top: 20px;
 }
@@ -119,9 +117,9 @@ body, html {
 }
 
 .reset_map {
-    font-size: 11px;
-    float: right;
-    margin-right: 10px;
+  font-size: 11px;
+  float: right;
+  margin-right: 10px;
 }
 
 .reset_map a, a:visited {
@@ -140,7 +138,9 @@ body, html {
 #sidebar h3 {
   padding: 20px;
   padding-bottom: 0;
-  font-size: 18px;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 25px;
 }
 
 .faq {
@@ -153,7 +153,35 @@ body, html {
   padding-right: 10px;
 }
 
+.modal-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.modal-body {
+  text-align: left;
+}
+
+.modal-body h6 {
+  font-weight: bold;
+}
+
 #mapContainer {
   flex: 3.5;
   height: 100vh;
+}
+
+#NTA_info {
+  position: absolute;
+  top: 40%;
+  left: 80%;
+  width: 200px;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 10px;
+  padding: 10px;
+  border-color: black;
+  border-radius: 5px;
+  visibility: hidden;
 }
