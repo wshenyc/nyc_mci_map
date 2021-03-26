@@ -1,4 +1,3 @@
-![Screen Shot 2021-03-26 at 7 11 02 PM](https://user-images.githubusercontent.com/73041144/112701440-0618db00-8e67-11eb-8b44-12b6cd39f96c.png)
 # Manhattan MCI Map
 
 This is an interactive map displaying all buildings in Manhattan that had/have a Major Capital Improvements application with 
