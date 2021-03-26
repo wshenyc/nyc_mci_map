@@ -18,11 +18,6 @@ body, html {
   background-repeat: no-repeat;
 }
 
-.credit {
-  font-size: 9px;
-  line-height: 10px;
-}
-
 .overlay-content {
   position: relative;
   width: 50%;
@@ -77,6 +72,12 @@ body, html {
   }
 }
 
+.credit {
+  font-size: 9px;
+  line-height: 10px;
+}
+
+
 .separator {
   min-height: 1px;
   background-color: rgba(46, 60, 67, 0.08);
@@ -91,39 +92,13 @@ body, html {
   flex: 1;
   border: 1px solid black;
   font-family: 'Raleway', sans-serif;
+  height: 100vh;
+  overflow: scroll;
+  min-width: 312px;
 }
 
 #sidebar h3, h4 {
   text-align: center;
-}
-
-#infoContainer {
-  max-height: 280px;
-  overflow: scroll;
-  margin-top: 20px;
-}
-
-.search_label {
-  font-weight: bold;
-}
-
-.actions {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.map-overlay {
-  padding: 0 10px 5px 60px;
-}
-
-.reset_map {
-  font-size: 11px;
-  float: right;
-  margin-right: 10px;
-}
-
-.reset_map a, a:visited {
-  color: blue;
 }
 
 #sidebar h3.mciItemHeader {
@@ -143,18 +118,44 @@ body, html {
   line-height: 25px;
 }
 
-.faq {
-  text-align: center;
-  padding: 10px;
-}
-
 #sidebar p, .buildingInfo {
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.modal-title {
+#infoContainer {
+  max-height: 280px;
+  max-height: calc(100vh - 514px);
+  overflow: scroll;
+  margin-top: 20px;
+}
+
+.search_label {
+  font-weight: bold;
+}
+
+.actions {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.map-overlay {
+  padding: 0 10px 5px 60px;
+}
+
+#resetBtn {
+  font-size: 12px;
+  float: right;
+  margin-top: 5px;
+}
+
+
+.faq {
   text-align: center;
+  padding: 10px;
+}
+
+.modal-title {
   font-weight: bold;
 }
 
