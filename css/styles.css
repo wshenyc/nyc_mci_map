@@ -23,7 +23,7 @@ body, html {
   width: 50%;
   max-width: 600px;
   top: 25%;
-  left: 28%;
+  left: 28.5%;
   text-align: left;
   padding: 20px;
   border-radius: 5px;
@@ -93,9 +93,10 @@ body, html {
   border: 1px solid black;
   font-family: 'Raleway', sans-serif;
   height: 100vh;
-  overflow: scroll;
+  overflow: hidden;
   min-width: 312px;
 }
+
 
 #sidebar h3, h4 {
   text-align: center;
@@ -123,12 +124,33 @@ body, html {
   padding-right: 10px;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 #infoContainer {
   max-height: 280px;
   max-height: calc(100vh - 514px);
-  overflow: scroll;
+  overflow: auto;
   margin-top: 20px;
 }
+
 
 .search_label {
   font-weight: bold;
@@ -178,14 +200,15 @@ body, html {
 #NTA_info {
   position: absolute;
   top: 40%;
-  left: 80%;
-  width: 200px;
+  left: 75%;
+  width: 220px;
   z-index: 999;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   color: white;
   font-size: 10px;
   padding: 10px;
   border-color: black;
   border-radius: 5px;
   visibility: hidden;
+  font-family: 'Raleway', sans-serif;
 }

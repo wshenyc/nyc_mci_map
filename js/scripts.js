@@ -33,8 +33,17 @@ map.scrollZoom.disable();
 
 // add navigation control in top right
 var nav = new mapboxgl.NavigationControl();
-map.addControl(nav, 'top-right');
+map.addControl(nav, 'top-left');
 
+
+//search bar
+
+var geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+});
+
+map.addControl(geocoder);
 
 map.on('load', function() {
 
@@ -68,7 +77,7 @@ map.on('load', function() {
     'type': 'fill',
     'source': 'mcilots',
     'paint': {
-      'fill-color': 'red'
+      'fill-color': '#C42021'
     }
   });
 
@@ -78,8 +87,40 @@ map.on('load', function() {
     'type': 'line',
     'source': 'mcilots',
     'paint': {
-      'line-color': '#4b0000',
+      'line-color': '#1a1a1a',
       'line-width': 1
+    }
+  });
+
+  // add outlines for selected lots
+  map.addSource('highlight-feature', {
+    'type': 'geojson',
+    'data': {
+      'type': 'FeatureCollection',
+      'features': []
+    }
+  });
+
+  map.addLayer({
+    'id': 'highlight-fill',
+    'type': 'fill',
+    'source': 'highlight-feature',
+    'paint': {
+      'fill-color': '#eacf47 '
+    }
+  });
+
+  map.addLayer({
+    'id': 'highlight-outline',
+    'type': 'line',
+    'source': 'highlight-feature',
+    'paint': {
+      'line-width': 3,
+      'line-opacity': 1,
+      'line-color': '#e83553'
+    },
+    'layout': {
+      'line-join': 'bevel'
     }
   });
 
@@ -123,6 +164,9 @@ map.on('click', 'manhattan-mci-lots', function(e) {
       </div>`
     });
     addDisplay.textContent = address;
+    map.setLayoutProperty('highlight-outline', 'visibility', 'visible');
+    map.setLayoutProperty('highlight-fill', 'visibility', 'visible');
+    map.getSource('highlight-feature').setData(e.features[0].geometry);
     infoContainer.innerHTML = MCIElements.join('');
   }
 });
@@ -135,41 +179,40 @@ function set_nta() {
   if (nta === 'reset') {
 
   } else {
-  //filtering layers based on selected NTA
-  map.setFilter('manhattan-mci-lots',
-    ['==', ['get', 'nta'], nta]
-  )
-  map.setFilter('mci-outlines',
-    ['==', ['get', 'nta'], nta]
-  )
-  map.setFilter('lots-outlines',
-    ['==', ['get', 'NTACode'], nta]
-  )
+    //filtering layers based on selected NTA
+    map.setFilter('manhattan-mci-lots',
+      ['==', ['get', 'nta'], nta]
+    )
+    map.setFilter('mci-outlines',
+      ['==', ['get', 'nta'], nta]
+    )
+    map.setFilter('lots-outlines',
+      ['==', ['get', 'NTACode'], nta]
+    )
 
+    //using helper function below to display aggregated data for the NTA
+    getAndDisplayMCIAverages(MCI_FINAL_DATA, nta)
 
-  //using helper function below to display aggregated data for the NTA
-  getAndDisplayMCIAverages(MCI_FINAL_DATA, nta)
-
-  //Zoom to selected NTA
-  $.getJSON("./data/nta-nyc.geojson", function(data) {
-    var neighborhood = data.features.find(function(feature) {
-      return feature.properties.NTACode === nta;
-    });
-    // nta data is formatted inconsistently, so ensure it's
-    // broken down to the format [[lng, lat], [lng, lat]]
-    var coords = flatten(neighborhood.geometry.coordinates)
-    var turfFeatures = turf.points(coords);
-    var newCenter = turf.center(turfFeatures);
-    map.flyTo({
-      center: newCenter.geometry.coordinates,
-      zoom: 14,
-      speed: 1
+    //Zoom to selected NTA
+    $.getJSON("./data/nta-nyc.geojson", function(data) {
+      var neighborhood = data.features.find(function(feature) {
+        return feature.properties.NTACode === nta;
+      });
+      // nta data is formatted inconsistently, so ensure it's
+      // broken down to the format [[lng, lat], [lng, lat]]
+      var coords = flatten(neighborhood.geometry.coordinates)
+      var turfFeatures = turf.points(coords);
+      var newCenter = turf.center(turfFeatures);
+      map.flyTo({
+        center: newCenter.geometry.coordinates,
+        zoom: 14,
+        speed: 1
+      })
     })
-  })
 
-  //display aggregated Data
-  document.getElementById("NTA_info").style.visibility = "visible";
-}
+    //display aggregated Data
+    document.getElementById("NTA_info").style.visibility = "visible";
+  }
 }
 
 
@@ -188,6 +231,10 @@ function resetMap() {
   addDisplay.textContent = "";
   infoContainer.innerHTML = "";
 
+  //removes highlight of selected lot
+  map.setLayoutProperty('highlight-outline', 'visibility', 'none');
+  map.setLayoutProperty('highlight-fill', 'visibility', 'none');
+
   //removes aggregate window
 
   document.getElementById("NTA_info").style.visibility = "hidden";
@@ -200,7 +247,12 @@ function resetMap() {
 
   //reset dropdown menu
   document.getElementById("nta_code").selectedIndex = 0;
+
+  //removes Geocoder's marker
+  geocoder.mapMarker.remove();
 }
+
+
 
 // helpers
 
