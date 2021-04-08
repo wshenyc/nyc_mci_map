@@ -63,6 +63,8 @@ outline: none;
   font-size: 22px;
   border: 4px solid rgba(0, 0, 0, 0.9);
   font-family: 'Open Sans', sans-serif;
+  outline: 0;
+  outline: none;
 }
 
 @media screen and (max-height: 450px) {
@@ -129,23 +131,23 @@ outline: none;
   padding-right: 10px;
 }
 
-::-webkit-scrollbar {
+#infoContainer::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+#infoContainer::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+#infoContainer::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 10px;
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+#infoContainer::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
