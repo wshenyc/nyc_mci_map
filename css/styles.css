@@ -3,6 +3,11 @@ body, html {
   font-family: 'Raleway', sans-serif;
 }
 
+*:focus {
+outline: 0;
+outline: none;
+}
+
 /*overlay code from: https://cneidson.github.io/hazards/*/
 .overlay {
   width: 100%;
