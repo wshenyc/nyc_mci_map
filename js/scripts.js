@@ -170,11 +170,15 @@ map.on('click', 'mci-lots', function(e) {
     var coords = flatten(e.features[0].geometry.coordinates)
     var turfFeatures = turf.points(coords);
     var newCenter = turf.center(turfFeatures);
+    var currentZoom = map.getZoom();
+    if (currentZoom >= 14) {
+    } else {
     map.flyTo({
       center: newCenter.geometry.coordinates,
       zoom: 14,
       speed: 1
     })
+  }
   }
 });
 
@@ -476,8 +480,11 @@ function resetMap() {
   document.getElementById("nta_code").innerHTML = "";
 
   //removes Geocoder's marker
+  if (geocoder.mapMarker ) {
   geocoder.mapMarker.remove();
 }
+}
+
 
 
 
