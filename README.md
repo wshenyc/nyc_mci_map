@@ -1,7 +1,7 @@
-# Manhattan MCI Map
+# NYC MCI Map
 
-This is an interactive map displaying all buildings in Manhattan that had/have a Major Capital Improvements application with 
-the New York State Division of Homes and Community Renewal (HCR) anytime from 2010-2020. Click [here](https://wshenyc.github.io/manhattan_mci_map/) to access the map.
+This is an interactive map displaying all buildings in NYC that had/have a Major Capital Improvements application with 
+the New York State Division of Homes and Community Renewal (HCR) anytime from 2010-2020. Click [here](https://wshenyc.github.io/nyc_mci_map/) to access the map.
 
 ## Data Sources
 
