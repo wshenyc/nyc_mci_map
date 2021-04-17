@@ -381,7 +381,6 @@ const ntaoptions =
   {value:"SI05",	desc:"New Springville-Bloomfield-Travis"},
   {value:"SI25",	desc:"Oakwood-Oakwood Beach"},
   {value:"SI36",	desc:"Old Town-Dongan Hills-South Beach"},
-  {value:"SI99",	desc:"park-cemetery-etc-Staten Island"},
   {value:"SI28",	desc:"Port Richmond"},
   {value:"SI32",	desc:"Rossville-Woodrow"},
   {value:"SI37",	desc:"Stapleton-Rosebank"},
