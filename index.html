@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Manhattan MCI Map</title>
+    <title>NYC MCI Map</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet'/>
@@ -21,7 +21,7 @@
     <body onload="openIntro()">
       <div id="myIntro" class="overlay">
         <div class="overlay-content">
-          <h1>Buildings in Manhattan with Major Capital Improvements
+          <h1>Buildings in NYC with Major Capital Improvements
             <br>
             Applications filed 2010-2020</h1>
           <p>Major Capital Improvements (MCI) are known to directly result in the
@@ -33,7 +33,7 @@
             as the following: When owners make improvements to a building subject to the rent stabilization or rent control laws, they can apply to HCR for approval to raise the rents of the tenants. When the improvement meets certain requirements it will be
             considered a MCI.</p>
           <p>
-            This is an interactive map showing which buildings in Manhattan have had MCI applications, including the improvement applied for, how much it allegedly cost, and application date.</p>
+            This is an interactive map showing which buildings in NYC have had MCI applications, including the improvement applied for, how much it allegedly cost, and application date.</p>
           <p align="center">
             <a href="javascript:void(0)" onclick="closeIntro()">
               <button id="overlay-button">
@@ -54,7 +54,7 @@
 
         <!-- Creating sidebar which will house all the values -->
         <div id='sidebar'>
-          <h3>Buildings in Manhattan with Major Capital Improvement Applications</h3>
+          <h3>Buildings in NYC with Major Capital Improvement Applications</h3>
           <div class='faq'>
 
             <!-- Button trigger modal -->
@@ -123,40 +123,24 @@
           <!-- NTA filter -->
           <div class="nta_filter">
             <ul class="actions">
+              <label class="search_label">Choose a Borough:</label>
+              <br>
+                <select id ="boro_selector" onchange = "filter_set()">
+                  <option value ="reset">Select borough</option>
+                  <option value ="BX">Bronx</option>
+                  <option value ="BK">Brooklyn</option>
+                  <option value ="MN">Manhattan</option>
+                  <option value ="QN">Queens</option>
+                  <option value ="SI">Staten Island</option>
+                </select><br>
+
               <label class="search_label">Filter by Neighborhood:</label>
-              <div class="select_nta">
+
                 <select id="nta_code" onchange="set_nta()">
-                  <option value="reset">Select neighborhood</option>
-                  <option value="MN25">Battery Park City</option>
-                  <option value="MN03">Central Harlem North-Polo Grounds</option>
-                  <option value="MN11">Central Harlem South</option>
-                  <option value="MN27">Chinatown</option>
-                  <option value="MN15">Clinton</option>
-                  <option value="MN34">East Harlem North</option>
-                  <option value="MN33">East Harlem South</option>
-                  <option value="MN22">East Village</option>
-                  <option value="MN21">Gramercy</option>
-                  <option value="MN04">Hamilton Heights</option>
-                  <option value="MN13">Hudson Yards/Chelsea/Flatiron</option>
-                  <option value="MN31">Lenox Hill/Roosevelt Island</option>
-                  <option value="MN14">Lincoln Square</option>
-                  <option value="MN28">Lower East Side</option>
-                  <option value="MN06">Manhattanville</option>
-                  <option value="MN01">Marble Hill-Inwood</option>
-                  <option value="MN17">Midtown-Midtown South</option>
-                  <option value="MN09">Morningside Heights</option>
-                  <option value="MN20">Murray Hill/Kips Bay</option>
-                  <option value="MN24">SoHo/TriBeCa/Little Italy</option>
-                  <option value="MN50">Stuy Town/Peter Cooper Village</option>
-                  <option value="MN19">Turtle Bay-East Midtown</option>
-                  <option value="MN40">Upper East Side/Carnegie Hill</option>
-                  <option value="MN12">Upper West Side</option>
-                  <option value="MN35">Washington Heights North</option>
-                  <option value="MN36">Washington Heights South</option>
-                  <option value="MN23">West Village</option>
-                  <option value="MN32">Yorkville</option>
+
                 </select>
-              </div>
+
+
               <!-- adds a reset button -->
               <button type="button" class="btn btn-primary btn-sm" id ="resetBtn" onclick="resetMap()">Reset Map</button>
             </ul>
