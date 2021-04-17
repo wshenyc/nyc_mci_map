@@ -28,7 +28,8 @@ years.
 The hope is that if policymakers and tenants can see how many MCIs their neighborhoods or buildings have been hit by, it can create a 
 sense of urgency to have this policy once and for all removed from New York State law. 
 
-![Screen Shot 2021-04-08 at 12 58 53 PM](https://user-images.githubusercontent.com/73041144/114066877-2fc00200-986a-11eb-96f4-130992d49fd3.png)
+![Screen Shot 2021-04-17 at 2 01 24 PM](https://user-images.githubusercontent.com/73041144/115122349-7063fd80-9f85-11eb-8099-a707ce0217df.png)
+
 
 
 
